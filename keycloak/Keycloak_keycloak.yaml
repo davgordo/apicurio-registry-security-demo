@@ -1,0 +1,21 @@
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  name: keycloak
+  labels:
+    app: sso
+spec:
+  instances: 1
+  externalAccess:
+    enabled: True
+  profile: RHSSO
+  keycloakDeploymentSpec:
+    experimental:
+      volumes:
+        defaultMode: 511
+        items:
+        - configMaps:
+          - extensions-actions
+          - extensions-postconfigure
+          mountPath: /opt/eap/extensions
+          name: extensions

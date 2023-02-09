@@ -1,0 +1,62 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakRealm
+metadata:
+  name: kafka
+  labels:
+    app: kafka
+spec:
+  instanceSelector:
+    matchLabels:
+      app: sso
+  realm:
+    id: kafka
+    realm: kafka
+    displayName: "Kafka Realm"
+    enabled: true
+    sslRequired: none
+    roles:
+      realm:
+        - name: sr-admin
+        - name: sr-developer
+        - name: sr-readonly
+    clients:
+      - clientId: registry-client-ui
+        implicitFlowEnabled: true
+        redirectUris:
+          - '*'
+        standardFlowEnabled: true
+        webOrigins:
+          - '*'
+        publicClient: true
+      - clientId: registry-client-api
+        clientAuthenticatorType: client-secret
+        secret: api-secret
+        standardFlowEnabled: false
+        serviceAccountsEnabled: true
+        defaultRoles:
+          - sr-admin
+    users:
+      - credentials:
+          - temporary: false
+            type: password
+            value: admin
+        enabled: true
+        realmRoles:
+          - sr-admin
+        username: registry-admin
+      - credentials:
+          - temporary: false
+            type: password
+            value: developer
+        enabled: true
+        realmRoles:
+          - sr-developer
+        username: registry-developer
+      - credentials:
+          - temporary: false
+            type: password
+            value: user
+        enabled: true
+        realmRoles:
+          - sr-readonly
+        username: registry-user

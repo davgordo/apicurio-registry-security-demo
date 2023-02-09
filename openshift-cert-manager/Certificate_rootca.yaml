@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rootca
+spec:
+  secretName: rootca
+  issuerRef:
+    name: self-signer
+    kind: ClusterIssuer
+  commonName: "ca.self-signer.cert-manager"
+  isCA: true
+  keyEncoding: pkcs8
+  searchdomains: 
+  - cluster.local

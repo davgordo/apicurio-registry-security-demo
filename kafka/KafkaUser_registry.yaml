@@ -1,0 +1,27 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: registry
+  labels:
+    strimzi.io/cluster: broker
+spec:
+  authentication:
+    type: tls
+  authorization:
+    type: simple
+    acls:
+      - operation: All
+        resource:
+          name: '*'
+          type: topic
+      - operation: All
+        resource:
+          type: cluster
+      - operation: All
+        resource:
+          name: '*'
+          type: transactionalId
+      - operation: All
+        resource:
+          name: '*'
+          type: group

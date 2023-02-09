@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "Storage",
+  "namespace": "com.example",
+  "fields": [
+      {
+          "name": "size",
+          "type": "int"
+      },
+      {
+          "name": "unit",
+          "type": "string"
+      }
+  ]
+}

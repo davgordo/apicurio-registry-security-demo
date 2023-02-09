@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: extensions-actions
+data:
+  actions.cli: |-
+    embed-server --std-out=echo  --server-config=standalone-openshift.xml
+    batch
+
+    /subsystem=keycloak-server/spi=login-protocol/:add
+    /subsystem=keycloak-server/spi=login-protocol/provider=openid-connect/:add(enabled=true)
+    /subsystem=keycloak-server/spi=login-protocol/provider=openid-connect/:map-put(name=properties,key="legacy-logout-redirect-uri",value="true")
+
+    run-batch
+    quit

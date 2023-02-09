@@ -1,0 +1,14 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: registry
+  namespace: kafka
+  labels:
+    app: registry
+spec:
+  to:
+    kind: Service
+    name: registry-service
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

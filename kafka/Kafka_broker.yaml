@@ -1,0 +1,41 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: broker
+  namespace: kafka
+spec:
+  kafka:
+    authorization:
+      type: simple
+    listeners:
+    - authentication:
+        type: tls
+      name: mtls
+      port: 9094
+      tls: true
+      type: internal
+    replicas: 3
+    resources:
+      limits:
+        cpu: 1
+        memory: 6Gi
+      requests:
+        cpu: 500m
+        memory: 6Gi
+    storage:
+      type: jbod
+      volumes:
+      - deleteClaim: false
+        id: 0
+        size: 20Gi
+        type: persistent-claim
+    version: 3.1.0
+  zookeeper:
+    replicas: 3
+    storage:
+      deleteClaim: false
+      size: 5Gi
+      type: persistent-claim
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}

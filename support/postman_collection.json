@@ -1,0 +1,344 @@
+{
+	"info": {
+		"_postman_id": "f28c9e9b-e9d8-4f4c-b89c-7d0922db8217",
+		"name": "Apicurio Registry",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "No Auth",
+			"item": [
+				{
+					"name": "List Artifacts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://registry-kafka.apps.{{Cluster Hostname}}/apis/registry/v2/search/artifacts?limit=10&order=asc&orderby=name",
+							"protocol": "https",
+							"host": [
+								"registry-kafka",
+								"apps",
+								"{{Cluster Hostname}}"
+							],
+							"path": [
+								"apis",
+								"registry",
+								"v2",
+								"search",
+								"artifacts"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "order",
+									"value": "asc"
+								},
+								{
+									"key": "orderby",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Artifact Metadata",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://registry-kafka.apps.{{Cluster Hostname}}/apis/registry/v2/groups/1/artifacts/b1787747-29f5-4be4-ae7e-621e54a70f25/meta",
+							"protocol": "https",
+							"host": [
+								"registry-kafka",
+								"apps",
+								"{{Cluster Hostname}}"
+							],
+							"path": [
+								"apis",
+								"registry",
+								"v2",
+								"groups",
+								"1",
+								"artifacts",
+								"b1787747-29f5-4be4-ae7e-621e54a70f25",
+								"meta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Version Metadata by Content",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "*/*",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "avro-example-schema.json"
+							}
+						},
+						"url": {
+							"raw": "https://registry-kafka.apps.{{Cluster Hostname}}/apis/registry/v2/groups/1/artifacts/b1787747-29f5-4be4-ae7e-621e54a70f25/meta?canonical=true",
+							"protocol": "https",
+							"host": [
+								"registry-kafka",
+								"apps",
+								"{{Cluster Hostname}}"
+							],
+							"path": [
+								"apis",
+								"registry",
+								"v2",
+								"groups",
+								"1",
+								"artifacts",
+								"b1787747-29f5-4be4-ae7e-621e54a70f25",
+								"meta"
+							],
+							"query": [
+								{
+									"key": "canonical",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Artifact",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json; artifactType=AVRO",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"record\",\n    \"name\": \"Storage\",\n    \"namespace\": \"com.example\",\n    \"fields\": [\n        {\n            \"name\": \"size\",\n            \"type\": \"int\"\n        },\n        {\n            \"name\": \"unit\",\n            \"type\": \"string\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://registry-kafka.apps.{{Cluster Hostname}}/apis/registry/v2/groups/1/artifacts",
+							"protocol": "https",
+							"host": [
+								"registry-kafka",
+								"apps",
+								"{{Cluster Hostname}}"
+							],
+							"path": [
+								"apis",
+								"registry",
+								"v2",
+								"groups",
+								"1",
+								"artifacts"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Client Cred Flow",
+			"item": [
+				{
+					"name": "Create Artifact",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json; artifactType=AVRO",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"record\",\n    \"name\": \"Storage\",\n    \"namespace\": \"com.example\",\n    \"fields\": [\n        {\n            \"name\": \"size\",\n            \"type\": \"int\"\n        },\n        {\n            \"name\": \"unit\",\n            \"type\": \"string\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://registry-kafka.apps.{{Cluster Hostname}}/apis/registry/v2/groups/1/artifacts",
+							"protocol": "https",
+							"host": [
+								"registry-kafka",
+								"apps",
+								"{{Cluster Hostname}}"
+							],
+							"path": [
+								"apis",
+								"registry",
+								"v2",
+								"groups",
+								"1",
+								"artifacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Artifact",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://registry-kafka.apps.{{Cluster Hostname}}/apis/registry/v2/groups/1/artifacts/fa7a451e-f80d-4444-9a23-f0d877c31da1",
+							"protocol": "https",
+							"host": [
+								"registry-kafka",
+								"apps",
+								"{{Cluster Hostname}}"
+							],
+							"path": [
+								"apis",
+								"registry",
+								"v2",
+								"groups",
+								"1",
+								"artifacts",
+								"fa7a451e-f80d-4444-9a23-f0d877c31da1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "clientSecret",
+						"value": "api-secret",
+						"type": "string"
+					},
+					{
+						"key": "grant_type",
+						"value": "client_credentials",
+						"type": "string"
+					},
+					{
+						"key": "challengeAlgorithm",
+						"value": "S256",
+						"type": "string"
+					},
+					{
+						"key": "clientId",
+						"value": "registry-client-api",
+						"type": "string"
+					},
+					{
+						"key": "authUrl",
+						"value": "https://keycloak-keycloak.apps.{{Cluster Hostname}}auth/realms/kafka/protocol/openid-connect/auth",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					},
+					{
+						"key": "client_authentication",
+						"value": "header",
+						"type": "string"
+					},
+					{
+						"key": "accessTokenUrl",
+						"value": "https://keycloak-keycloak.apps.{{Cluster Hostname}}/auth/realms/kafka/protocol/openid-connect/token",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "Cluster Hostname",
+			"value": "example-cluster.com"
+		}
+	]
+}

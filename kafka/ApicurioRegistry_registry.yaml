@@ -1,0 +1,31 @@
+apiVersion: registry.apicur.io/v1
+kind: ApicurioRegistry
+metadata:
+  name: registry
+spec:
+  configuration:
+    env:
+      - name: ENABLE_CCOMPAT_CANONICAL_HASH_MODE
+        value: "true"
+      - name: REGISTRY_AUTH_RBAC_ENABLED
+        value: "true"
+      - name: REGISTRY_AUTH_ANONYMOUS_READS_ENABLED
+        value: "true"
+      - name: "KEYCLOAK_API_CLIENT_SECRET"
+        value: "api-secret"
+    persistence: kafkasql
+    logLevel: INFO
+    kafkasql:
+      bootstrapServers: broker-kafka-bootstrap:9094
+      security:
+        tls:
+          keystoreSecretName: registry
+          truststoreSecretName: broker-cluster-ca-cert
+    security:
+      keycloak:
+        url: https://keycloak-keycloak.apps.cluster-cbz92.cbz92.sandbox2065.opentlc.com/auth
+        realm: kafka
+        apiClientId: registry-client-api
+        uiClientId: registry-client-ui
+  deployment:
+    replicas: 1
